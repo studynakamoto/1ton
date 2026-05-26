@@ -1,0 +1,867 @@
+// automatically generated from `/stdlib/std/stdlib.fc` `C:/Users/Maximilian/dev/1ton-fun/build/Factory/tact_Factory.fc` 
+PROGRAM{
+  DECLPROC __tact_context_get
+  DECLPROC __tact_context_get_sender
+  DECLPROC __tact_string_builder_start
+  DECLPROC __tact_string_builder_start_string
+  DECLPROC __tact_string_builder_end
+  DECLPROC __tact_string_builder_append
+  DECLPROC $TokenLaunched$_store
+  DECLPROC $TokenLaunched$_store_cell
+  DECLPROC $Factory$_store
+  DECLPROC $Factory$_load
+  DECLPROC $DeployedAddresses$_to_external
+  DECLPROC $JettonMaster$init$_store
+  DECLPROC $BondingCurve$init$_store
+  DECLPROC $Factory$_contract_load
+  DECLPROC $Factory$_contract_store
+  DECLPROC $Cell$_fun_asSlice
+  DECLPROC $global_newAddress
+  DECLPROC $global_contractAddressExt
+  DECLPROC $global_contractAddress
+  DECLPROC $JettonMaster$_init_child
+  DECLPROC $BondingCurve$_init_child
+  DECLPROC $MessageParameters$_constructor_to_value_bounce_mode_body
+  DECLPROC $Factory$_fun_buildContent
+  DECLPROC $Factory$_fun_get_token_count
+  DECLPROC $Factory$_fun_get_owner
+  DECLPROC $Factory$_fun_get_treasury
+  DECLPROC $Factory$_fun_get_launch_fee
+  DECLPROC $DeployedAddresses$_constructor_jettonMaster_bondingCurve
+  DECLPROC $Factory$_fun_compute_addresses
+  DECLPROC $DeployParameters$_constructor_value_bounce_mode_init
+  DECLPROC $TokenLaunched$_constructor_queryId_jettonMaster_bondingCurve_creator_name_symbol
+  116606 DECLMETHOD %get_token_count
+  80293 DECLMETHOD %get_owner
+  107886 DECLMETHOD %get_treasury
+  126523 DECLMETHOD %get_launch_fee
+  104751 DECLMETHOD %compute_addresses
+  113617 DECLMETHOD supported_interfaces
+  DECLPROC recv_internal
+  65535 DECLMETHOD __tact_selector_hack
+  DECLGLOBVAR __tact_context
+  DECLGLOBVAR __tact_context_sender
+  DECLGLOBVAR __tact_child_contract_codes
+  DECLGLOBVAR __tact_randomized
+  __tact_context_get PROCINLINE:<{
+    __tact_context GETGLOB
+    4 UNTUPLE
+  }>
+  __tact_context_get_sender PROCINLINE:<{
+    __tact_context_sender GETGLOB
+  }>
+  __tact_string_builder_start PROCINLINE:<{
+    NIL
+    SWAP
+    TPUSH
+    PUSHNULL
+    TPUSH
+  }>
+  __tact_string_builder_start_string PROCINLINE:<{
+    NEWC
+    __tact_string_builder_start INLINECALLDICT
+  }>
+  __tact_string_builder_end PROCINLINE:<{
+    UNCONS
+    SWAP
+    ENDC
+    WHILE:<{
+      OVER
+      ISNULL
+      NOT
+    }>DO<{
+      SWAP
+      UNCONS
+      -ROT
+      STREF
+      ENDC
+    }>
+    NIP
+  }>
+  __tact_string_builder_append PROCREF:<{
+    DUP
+    SREFS
+    OVER
+    SBITS
+    WHILE:<{
+      DUP
+      0 GTINT
+      s2 PUSH
+      0 GTINT
+      OR
+    }>DO<{
+      s0 s3 XCHG
+      UNCONS
+      127 PUSHINT
+      s2 PUSH
+      BBITS
+      3 RSHIFT#
+      SUB
+      s0 s5 XCHG
+      3 RSHIFT#
+      s5 s5 XCPU
+      MIN
+      DUP
+      0 GTINT
+      IF:<{
+        DUP
+        3 LSHIFT#
+        s1 s5 XCHG
+        LDSLICEX
+        s0 s3 XCHG
+        STSLICE
+        s0 s1 s4 XCHG3
+      }>
+      -ROT
+      CONS
+      s4 s1 PUSH2
+      SUB
+      0 GTINT
+      IF:<{
+        NEWC
+        SWAP
+        CONS
+        s4 s4 XCHG2
+        SUB
+        3 LSHIFT#
+      }>ELSE<{
+        NIP
+        s3 POP
+        0 GTINT
+        IF:<{
+          LDREF
+          DROP
+          CTOS
+          DUP
+          SREFS
+          OVER
+          SBITS
+        }>ELSE<{
+          0 PUSHINT
+          DUP
+        }>
+      }>
+    }>
+    3 BLKDROP
+  }>
+  $TokenLaunched$_store PROCINLINE:<{
+    1839890722 PUSHINT
+    s0 s7 XCHG2
+    32 STU
+    s1 s5 XCHG
+    64 STU
+    s1 s3 XCHG
+    STSLICE
+    STSLICE
+    STSLICE
+    SWAP
+    NEWC
+    STSLICE
+    STBREFR
+    SWAP
+    NEWC
+    STSLICE
+    STBREFR
+  }>
+  $TokenLaunched$_store_cell PROCINLINE:<{
+    6 -ROLL
+    $TokenLaunched$_store INLINECALLDICT
+    ENDC
+  }>
+  $Factory$_store PROCINLINE:<{
+    s2 s3 XCHG2
+    STSLICE
+    STSLICE
+    32 STU
+  }>
+  $Factory$_load PROCINLINE:<{
+    LDMSGADDR
+    LDMSGADDR
+    32 LDU
+    3 -ROLL
+  }>
+  $DeployedAddresses$_to_external PROCINLINE:<{
+  }>
+  $JettonMaster$init$_store PROCINLINE:<{
+    s5 s4 XCHG2
+    STVARUINT16
+    s1 s2 XCHG
+    STSLICE
+    STSLICE
+    s1 s2 XCHG
+    STREF
+    1 STI
+  }>
+  $BondingCurve$init$_store PROCINLINE:<{
+    s5 s6 XCHG2
+    STSLICE
+    s1 s3 XCHG
+    STSLICE
+    SWAP
+    NEWC
+    STSLICE
+    STBREFR
+    SWAP
+    STVARUINT16
+    SWAP
+    STVARUINT16
+    1 STI
+  }>
+  $Factory$_contract_load PROCINLINE:<{
+    c4 PUSH
+    CTOS
+    $Factory$_load INLINECALLDICT
+    1 3 BLKDROP2
+  }>
+  $Factory$_contract_store PROCINLINE:<{
+    NEWC
+    3 -ROLL
+    $Factory$_store INLINECALLDICT
+    ENDC
+    c4 POP
+  }>
+  $Cell$_fun_asSlice PROCINLINE:<{
+        CTOS
+  }>
+  $global_newAddress PROCINLINE:<{
+        NEWC
+    4 PUSHINT
+    SWAP
+    3 STU
+    s1 s2 XCHG
+    8 STI
+    256 STU
+        ENDC
+    $Cell$_fun_asSlice INLINECALLDICT
+  }>
+  $global_contractAddressExt PROCINLINE:<{
+        s0 PUSH HASHCU // `data` hash
+        s2 PUSH HASHCU // `code` hash
+        SWAP2
+        CDEPTH         // `data` depth
+        SWAP
+        CDEPTH         // `code` depth
+        131380 INT     // (2 << 16) | (1 << 8) | 0x34
+        // Group 2: Composition of the Builder
+        NEWC
+        24 STU  // store refs_descriptor | bits_descriptor | data
+        16 STU  // store depth_descriptor for `code`
+        16 STU  // store depth_descriptor for `data`
+        256 STU // store `code` hash
+        256 STU // store `data` hash
+        // Group 3: SHA256 hash of the resulting Builder
+        ONE HASHEXT_SHA256
+    $global_newAddress INLINECALLDICT
+  }>
+  $global_contractAddress PROCINLINE:<{
+    0 PUSHINT
+    -ROT
+    $global_contractAddressExt INLINECALLDICT
+  }>
+  $JettonMaster$_init_child PROCREF:<{
+        B{b5ee9c7201022b01000946000228ff008e88f4a413f4bcf2c80bed5320e303ed43d90102020378e0070802f23001d072d721d200d200fa4021103450666f04f86102f862ed44d0fa00fa40fa40d4d20055406c15068e39048020d7217021d749c21f9430d31f01de8210178d4519ba8e1cd33ffa00596c2113a15034c855405054fa0212cece12ccca00c9ed54e05f06e07025d74920c21f953105d31f06de21c015e30221030401fc5b04d33f31fa40fa0031d430d0d31f018210178d4519baf2e081d33ffa00fa40d72c01916d93fa4001e201fa005155151443303682009327f84229c705f2f48200b1782cf2f4f8416f248117b6820898968026a045405236fa40fa0071d721fa00fa00306c6170f83a13a081290470f836aa00a012bcf2f45193a04430700503fa82107bdd97deba8f725b04d33ffa00fa40d72c01916d93fa4001e231f842fa440370f82812db3c20f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400820098f602c00097206ef2d08013ba93303270e212f2f45055a1246eb3923430e30d4034c855405054fa0212cece12ccca00c9ed54e02119131402fc50547f805050c8c855508210178d45195007cb1f15cb3f5003fa02ce01206e9430cf84809201cee201fa02cec90470f82812db3c102510481038103510245f41f90001f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f9040003c8cf8580ca0012cccccf884008cbff01fa028069cf40cf8634f400c901fb00190600264034c855405054fa0212cece12ccca00c9ed54020120090a0201200f100201580b0c0095b77a304e0b9d87aba595cf63d09d873ac950a36cd04e13bac6a5a56c8f96645a75e5bfbe2c47304e040ab803700cec7299cb0755c8e4b658704e037a93bdf2a8b2de38ea7a7bc0ab3864d00131adbcf6a2687d007d207d206a69002aa0360aaa826d9e3628c00d012daf16f6a2687d007d207d206a69002aa0360aed9e362ac00e016670f82812db3c705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d019010e885465205466501b012db7fedda89a1f401f481f481a9a400aa80d82bb678d8a3011012db6555da89a1f401f481f481a9a400aa80d82bb678d8a3012000224000222006404206ef2d08001c8018210d53276db58cb1fcb3fc9707080425044c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0004f482102c76b973bae30221c0048e275f0303d33f31d4308200c4fbf84223c705f2f4440302c855405054fa0212cece12ccca00c9ed54e021c0178e2910235f0303d33f31fa40308200c4fbf84223c705f2f44034c855405054fa0212cece12ccca00c9ed54e021c003e302363625c016e3025f0401c00001c121b01516171802f410675f07d33ffa40d2003021fa4430c0008ea670f8285230db3c20f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400916de2552095c801cf16c992306de2c88210d173540001cb1f12cb3f58db3cf400c9f84270804043137fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb00191a00505b04d33f31fa40308200c4fbf8425004c70513f2f44034c855405054fa0212cece12ccca00c9ed5400723434812423f84222c705917f95f84225c705e2f2f470f842c8cf8508ce70cf0b6ec98042fb004430c855405054fa0212cece12ccca00c9ed54002c8e10f842c8cf8508ce70cf0b6ec98042fb00e0f2c082011688c855215afa0212cecec91b002e206e95307001cb01e0830958cb0a01206ef2d08001cbff0228ff008e88f4a413f4bcf2c80bed5320e303ed43d91c1d0202711e1f01f83001d072d721d200d200fa4021103450666f04f86102f862ed44d0fa00fa40fa4055206c13048e53028020d7217021d749c21f9430d31f01de208210178d4519ba8e1630d33ffa00596c21a002c855205afa0212cecec9ed54e082107bdd97deba8e15d33ffa00596c21a002c855205afa0212cecec9ed54e05f04e0210127bfd8176a2687d007d207d202a903609ed9e361a4200095bdde8c1382e761eae96573d8f42761ceb25428db341384eeb1a9695b23e599169d796fef8b11cc138102ae00dc033b1ca672c1d572392d961c1380dea4ef7caa2cb78e3a9e9ef02ace1934000ef82a5463305230035402d70d1ff2e0822182100f8a7ea5bae302218210178d4519bae302018210595f07bcbae3025f04f2c08222232401fe31d33ffa00fa40d72c01916d93fa4001e201f40431fa0023fa4430f2d08a8200f1aaf84229c705f2f45164a18200edb021c2fff2f48200db6c27d749c200f2f4f8416f2425b8a4541432811ba806fa40fa0071d721fa00fa00306c6170f83a12a85240a081290470f836aa008208989680a0a0bcf2f450547080407f2a46132503f631d33ffa00fa40d72c01916d93fa4001e201fa005164a0705349db3cf842fa44315920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400206ef2d08001ba9c8200ce00f84252a0c705f2f4dff8416f2421f8276f1021a127c200963c1059385f06e30d048208989680b60972fb02236eb327282901fed33ffa00d72c01916d93fa4001e2318200bba1f84226c705f2f45131a1816b6621c2fff2f4f8416f2443305230fa40fa0071d721fa00fa00306c6170f83a820098f4811a2c70f836aa0012a012bcf2f47080405414367f07c8553082107bdd97de5005cb1f13cb3f01fa02ce01206e9430cf84809201cee2c92604431350552a02f8509ac855508210178d45195007cb1f15cb3f5003fa02ce01206e9430cf84809201cee201fa02cec9525328db3c10561024103610261045102410235f41f90001f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f9040003c8cf8580ca0012cccccf884008cbff01fa028069cf40cf8634f400c901fb000227260018c855205afa0212cecec9ed540018f82ac855215afa0212cecec900ae5531fa40fa0071d721fa00fa00306c6170f83a5240a012a17170294913508bc8553082107362d09c5005cb1f13cb3f01fa02cecec9290447135066441359c8cf8580ca00cf8440ce01fa02806acf40f400c901fb00414000a69320c2009170e28e3803206ef2d0808100827004c8018210d53276db58cb1fcb3fc91024103512441359c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0093135f03e202c855205afa0212cecec9ed54004e441359c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0002c855205afa0212cecec9ed54} B>boc PUSHREF
+    NEWC
+    5 2 BLKSWAP
+    $JettonMaster$init$_store INLINECALLDICT
+    ENDC
+  }>
+  $BondingCurve$_init_child PROCREF:<{
+        B{b5ee9c7201022b010009d8000228ff008e88f4a413f4bcf2c80bed5320e303ed43d90102020271030402e83001d072d721d200d200fa4021103450666f04f86102f862ed44d0fa40fa40d401d001fa00fa00d20055506c1607925f07e07026d74920c21f953106d31f07de21821054c2c2ccbae3022182107362d09cbae30250785f07c00001c121b08e10f842c8cf8508ce70cf0b6ec98042fb00e0f2c082121302012005060201660c0d0202760708013bb9b83ed44d0fa40fa40d401d001fa00fa00d20055506c165505db3c6c6180b0136a90ced44d0fa40fa40d401d001fa00fa00d20055506c16db3c6c61090136a92eed44d0fa40fa40d401d001fa00fa00d20055506c16db3c6c670a000220002e82103b9aca008218e8d4a5100027544730265446302659004482103b9aca0024a08218e8d4a5100024a15ca803a012a904a18126aca8812710a9040137b268fb51343e903e90350074007e803e80348015541b05b6cf1b18600e0201200f10003882103b9aca0023a08218e8d4a5100023a10182103b9aca00a801a904013bae61f6a2687d207d206a00e800fd007d0069002aa8360b2a82ed9e3630c0110095ade8c1382e761eae96573d8f42761ceb25428db341384eeb1a9695b23e599169d796fef8b11cc138102ae00dc033b1ca672c1d572392d961c1380dea4ef7caa2cb78e3a9e9ef02ace1934000468126aca8812710a90482103b9aca0024a08218e8d4a5100024a15ca85023a012a904a101fe5b05d33ffa00308200d85828b3f2f4f8416f24135f038200d0af21821007270e00bcf2f4820afaf080a18209312d00a1820afaf080a120a764812710a90466a182103b9aca0025a08218e8d4a510002aa15ca85123a012a904a181409121c200f2f4208200be3e05be14f2f414a05171a0820afaf0807f71f84223f84270c81402fc5b05d33ffa00fa408200d8582ab3f2f481356df84210591048103746ab70f82827db3c705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d01cc7051af2f481128127c200f2f482103b9aca0021a08218e8d4a510002aa15ca85119a0a904a18200987021c200181701ee5210cb00c9d02a514f104b4b330b2c50c8506c15144330c855808015500acb1f18cb3f16ce5004fa02c8061035102443078210178d45195007cb1f15cb3f5003fa02ce01206e9430cf84809201cee201fa02cecdc9290450554343c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0070715335c81501d85982102723fcb45003cb1fcb3f01c8cecdc927040655204343c8cf8580ca00cf8440ce01fa02806acf40f400c901fb002582181010b87200be9226b39170e28e8d36103544037f01db3c441550339130e210354403c855505056ce13ce01c8cecd01fa0201fa02ca00c9ed541600ba820afaf08070716f00c80130801601cb1fc92a55304343c8cf8580ca00cf8440ce01fa02806acf40f400c901fb008209312d007071c88200dead01cb1f14cb3fc92850444343c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0002f8f2f4811d865312bbf2f47026d749c23f963005fa0030059136e220a764812710a9045ca1208200be3e09be18f2f459a15197a1104510341023490a70f82827db3c705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d08209c9c3807f716d544dd052cec81819011688c855215afa0212cecec91a01fc55308210595f07bc5005cb1f13cb3f01fa0201206e9430cf84809201cee2f400c9103441301b4343c8cf8580ca00cf8440ce01fa02806acf40f400c901fb007071c852a0cb3fc91048103b4343c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0070715172c85982102723fcb45003cb1fcb3f01c8cecdc923103a2a0228ff008e88f4a413f4bcf2c80bed5320e303ed43d91b1c0202711d1e01f83001d072d721d200d200fa4021103450666f04f86102f862ed44d0fa00fa40fa4055206c13048e53028020d7217021d749c21f9430d31f01de208210178d4519ba8e1630d33ffa00596c21a002c855205afa0212cecec9ed54e082107bdd97deba8e15d33ffa00596c21a002c855205afa0212cecec9ed54e05f04e0200127bfd8176a2687d007d207d202a903609ed9e361a41f0095bdde8c1382e761eae96573d8f42761ceb25428db341384eeb1a9695b23e599169d796fef8b11cc138102ae00dc033b1ca672c1d572392d961c1380dea4ef7caa2cb78e3a9e9ef02ace1934000ef82a5463305230035402d70d1ff2e0822182100f8a7ea5bae302218210178d4519bae302018210595f07bcbae3025f04f2c08221222301fe31d33ffa00fa40d72c01916d93fa4001e201f40431fa0023fa4430f2d08a8200f1aaf84229c705f2f45164a18200edb021c2fff2f48200db6c27d749c200f2f4f8416f2425b8a4541432811ba806fa40fa0071d721fa00fa00306c6170f83a12a85240a081290470f836aa008208989680a0a0bcf2f450547080407f2a46132403f631d33ffa00fa40d72c01916d93fa4001e201fa005164a0705349db3cf842fa44315920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400206ef2d08001ba9c8200ce00f84252a0c705f2f4dff8416f2421f8276f1021a127c200963c1059385f06e30d048208989680b60972fb02236eb326272801fed33ffa00d72c01916d93fa4001e2318200bba1f84226c705f2f45131a1816b6621c2fff2f4f8416f2443305230fa40fa0071d721fa00fa00306c6170f83a820098f4811a2c70f836aa0012a012bcf2f47080405414367f07c8553082107bdd97de5005cb1f13cb3f01fa02ce01206e9430cf84809201cee2c92604431350552902f8509ac855508210178d45195007cb1f15cb3f5003fa02ce01206e9430cf84809201cee201fa02cec9525328db3c10561024103610261045102410235f41f90001f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f9040003c8cf8580ca0012cccccf884008cbff01fa028069cf40cf8634f400c901fb000226250018c855205afa0212cecec9ed540018f82ac855215afa0212cecec900ae5531fa40fa0071d721fa00fa00306c6170f83a5240a012a17170294913508bc8553082107362d09c5005cb1f13cb3f01fa02cecec9290447135066441359c8cf8580ca00cf8440ce01fa02806acf40f400c901fb00414000a69320c2009170e28e3803206ef2d0808100827004c8018210d53276db58cb1fcb3fc91024103512441359c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0093135f03e202c855205afa0212cecec9ed54004e441359c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0002c855205afa0212cecec9ed54006c50884343c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0005034144c855505056ce13ce01c8cecd01fa0201fa02ca00c9ed54} B>boc PUSHREF
+    NEWC
+    6 2 BLKSWAP
+    $BondingCurve$init$_store INLINECALLDICT
+    ENDC
+  }>
+  $MessageParameters$_constructor_to_value_bounce_mode_body PROCINLINE:<{
+    s3 s4 s3 XCHG3
+  }>
+  $Factory$_fun_buildContent PROCREF:<{
+    __tact_string_builder_start_string INLINECALLDICT
+    s0 s4 XCHG2
+    __tact_string_builder_append INLINECALLDICT
+    __tact_string_builder_start_string INLINECALLDICT
+    s0 s3 XCHG2
+    __tact_string_builder_append INLINECALLDICT
+    __tact_string_builder_start_string INLINECALLDICT
+    ROT
+    __tact_string_builder_append INLINECALLDICT
+    __tact_string_builder_start_string INLINECALLDICT
+    s0 s4 XCHG2
+    __tact_string_builder_append INLINECALLDICT
+    __tact_string_builder_end INLINECALLDICT
+    s0 s3 XCHG
+    __tact_string_builder_end INLINECALLDICT
+    SWAP
+    __tact_string_builder_end INLINECALLDICT
+    s0 s2 XCHG
+    __tact_string_builder_end INLINECALLDICT
+        NEWC
+    11 PUSHINT
+    SWAP
+    8 STU
+        STREF
+    s1 s2 XCHG
+        STREF
+        STREF
+        STREF
+        ENDC
+        NEWC
+    0 PUSHINT
+    SWAP
+    8 STU
+        STREF
+        ENDC
+  }>
+  $Factory$_fun_get_token_count PROCREF:<{
+    DUP
+  }>
+  $Factory$_fun_get_owner PROCREF:<{
+    s2 PUSH
+  }>
+  $Factory$_fun_get_treasury PROCREF:<{
+    OVER
+  }>
+  $Factory$_fun_get_launch_fee PROCREF:<{
+    1000000000 PUSHINT
+  }>
+  $DeployedAddresses$_constructor_jettonMaster_bondingCurve PROCINLINE:<{
+  }>
+  $Factory$_fun_compute_addresses PROCREF:<{
+    s3 PUSH
+    s6 s7 XCHG
+    s5 s7 XCHG
+    s4 s7 XCHG
+    3 -ROLL
+    $Factory$_fun_buildContent INLINECALLDICT
+    0 PUSHINT
+        MYADDR
+        MYADDR
+    s3 PUSH
+    TRUE
+    $JettonMaster$_init_child INLINECALLDICT
+    $global_contractAddress INLINECALLDICT
+    0 PUSHINT
+    s4 s(-1) s(-1) PUXCPU
+    s8 PUSH
+    s0 s2 XCHG
+    FALSE
+    $BondingCurve$_init_child INLINECALLDICT
+    $global_contractAddress INLINECALLDICT
+    0 PUSHINT
+        MYADDR
+    s0 s0 s3 XCHG3
+    TRUE
+    $JettonMaster$_init_child INLINECALLDICT
+    $global_contractAddress INLINECALLDICT
+    0 PUSHINT
+    DUP
+    FALSE
+    s3 s5 PUSH2
+    s0 s4 XCHG
+    s3 s9 XCHG
+    s9 s2 XCHG2
+    $BondingCurve$_init_child INLINECALLDICT
+    $global_contractAddress INLINECALLDICT
+    s1 s4 XCHG
+    $DeployedAddresses$_constructor_jettonMaster_bondingCurve INLINECALLDICT
+    s3 s4 XCHG
+    s2 s3 XCHG
+  }>
+  $DeployParameters$_constructor_value_bounce_mode_init PROCINLINE:<{
+    s2 s4 XCHG
+    PUSHNULL
+    s4 s4 s4 XCHG3
+  }>
+  $TokenLaunched$_constructor_queryId_jettonMaster_bondingCurve_creator_name_symbol PROCINLINE:<{
+  }>
+  %get_token_count PROC:<{
+    $Factory$_contract_load INLINECALLDICT
+    $Factory$_fun_get_token_count INLINECALLDICT
+    3 1 BLKDROP2
+  }>
+  %get_owner PROC:<{
+    $Factory$_contract_load INLINECALLDICT
+    $Factory$_fun_get_owner INLINECALLDICT
+    3 1 BLKDROP2
+  }>
+  %get_treasury PROC:<{
+    $Factory$_contract_load INLINECALLDICT
+    $Factory$_fun_get_treasury INLINECALLDICT
+    3 1 BLKDROP2
+  }>
+  %get_launch_fee PROC:<{
+    $Factory$_contract_load INLINECALLDICT
+    $Factory$_fun_get_launch_fee INLINECALLDICT
+    3 1 BLKDROP2
+  }>
+  %compute_addresses PROC:<{
+    $Factory$_contract_load INLINECALLDICT
+    4 3 BLKSWAP
+    $Factory$_fun_compute_addresses INLINECALLDICT
+    3 2 BLKDROP2
+    $DeployedAddresses$_to_external INLINECALLDICT
+  }>
+  supported_interfaces PROC:<{
+    123515602279859691144772641439386770278 PUSHINT
+    209801025412363888721030803524359905849 PUSHINT
+    42980537499636128163026532310500881091 PUSHINT
+    36993126140238121407019133875791708966 PUSHINT
+  }>
+  recv_internal PROC:<{
+    SWAP
+    CTOS
+    2 PUSHINT
+    SDSKIPFIRST
+    1 LDI
+    1 LDI
+    LDMSGADDR
+    OVER
+    s3 s4 XCHG
+    s6 s6 XCHG2
+    4 TUPLE
+    __tact_context SETGLOB
+    s0 s2 XCHG
+    __tact_context_sender SETGLOB
+    $Factory$_contract_load INLINECALLDICT
+    s0 s4 XCHG
+    IFJMP:<{
+      4 BLKDROP
+    }>
+    0 PUSHINT
+    s3 PUSH
+    SBITS
+    DUP
+    31 GTINT
+    IF:<{
+      NIP
+      s0 s3 XCHG
+      32 LDU
+      s0 s4 XCHG
+    }>
+    OVER
+    3373264781 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s2 XCHG
+      64 LDU
+      LDREF
+      SWAP
+      CTOS
+      SWAP
+      LDREF
+      SWAP
+      CTOS
+      SWAP
+      LDREF
+      DROP
+      CTOS
+      LDREF
+      SWAP
+      CTOS
+      SWAP
+      LDREF
+      DROP
+      CTOS
+      __tact_context_get INLINECALLDICT
+      DROP
+      NIP
+      35920 PUSHINT
+      s2 POP
+      1000000000 PUSHINT
+      GEQ
+      THROWANYIFNOT
+      51341 PUSHINT
+      s4 PUSH
+          SEMPTY
+      NOT
+      THROWANYIFNOT
+      32258 PUSHINT
+      s3 PUSH
+          SEMPTY
+      NOT
+      THROWANYIFNOT
+      6 2 REVERSE
+      s6 PUSH
+      s8 s2 s(-1) PUXC2
+      $Factory$_fun_buildContent INLINECALLDICT
+      0 PUSHINT
+          MYADDR
+          MYADDR
+      s3 PUSH
+      TRUE
+      $JettonMaster$_init_child INLINECALLDICT
+      $global_contractAddress INLINECALLDICT
+      0 PUSHINT
+      s4 s(-1) s(-1) PUXCPU
+      s9 PUSH
+      s0 s2 XCHG
+      FALSE
+      $BondingCurve$_init_child INLINECALLDICT
+      $global_contractAddress INLINECALLDICT
+      0 PUSHINT
+          MYADDR
+      s0 s0 s3 XCHG3
+      TRUE
+      $JettonMaster$_init_child INLINECALLDICT
+      2DUP
+      $global_contractAddress INLINECALLDICT
+      0 PUSHINT
+      DUP
+      FALSE
+      s3 PUSH
+      s3 s8 XCPU
+      s3 s12 XCPU
+      s0 s3 XCHG
+      $BondingCurve$_init_child INLINECALLDICT
+      2DUP
+      $global_contractAddress INLINECALLDICT
+      s0 s6 XCHG
+      INC
+      300000000 PUSHINT
+      TRUE
+      2SWAP
+      1 PUSHINT
+      s0 s8 s7 XCHG3
+      $DeployParameters$_constructor_value_bounce_mode_init INLINECALLDICT
+          4 1 BLKPUSH // pushes 2 copies of `init.code` and `init.data`
+          HASHCU // `init.data` hash
+          SWAP
+          HASHCU // `init.code` hash
+          SWAP2
+          CDEPTH // `init.data` depth
+          SWAP
+          CDEPTH // `init.code` depth
+          // Group 2: Calculating destination address
+          // For almost identical logic and instructions,
+          // see comments inside `contractHash()` function in contract.tact
+          131380 INT // (2 << 16) | (1 << 8) | 0x34
+          NEWC
+          24 STU
+          16 STU
+          16 STU
+          256 STU
+          256 STU
+          ONE HASHEXT_SHA256 // obtains hash part (account id) of the address
+          // → Stack state
+          // s0: destAddr(hash part)
+          // s1: `init.data`
+          // s2: `init.code`
+          // s3 and below: `bounce`, `value`, `body`, `mode`
+          // Group 3: Building a message (CommonMsgInfoRelaxed)
+          s3 XCHG0           // swaps `bounce` with destAddr(hash part)
+          NEWC
+          b{01} STSLICECONST // store tag = $0 and ihr_disabled = true
+          1 STI              // store `bounce`
+          s1 s2 XCHG         // swap `init.data` with `init.code`, placing code on s1
+          STREF              // store `init.code`
+          STREF              // store `init.data`
+          // Inline StateInit:
+          b{00010000000000} STSLICECONST
+          // 0 + 00 + 10 + 0 + 00000000
+          // 1) 0 - bounced = false
+          // 2) 00 - src = addr_none
+          // 3) 10 - tag of addr_std (part of dest)
+          // 4) 0 - Maybe Anycast = false
+          // 5) 00000000 - workchain_id (part of dest)
+          //
+          256 STU     // store destAddr(hash part)
+          SWAP        // Builder on top, `value` below
+          STGRAMS     // store `value`
+          105 PUSHINT // 1 + 4 + 4 + 64 + 32
+          STZEROES    // store currency_collection, ihr_fee, fwd_fee, created_lt and created_at
+          // Group 4: Continue building a message (CommonMsgInfoRelaxed into MessageRelaxed)
+          // Remaining bits of MessageRelaxed:
+          b{1000110} STSLICECONST
+          // 10 + 0 + 0 + 1 + 1 + 0
+          // 10 - Maybe (Either StateInit ^StateInit) = true false
+          // 0 - split_depth:(Maybe (## 5)) = false
+          // 0 = special:(Maybe TickTock) = false
+          // 1 = code:(Maybe ^Cell) = true
+          // 1 = data:(Maybe ^Cell) = true
+          // 0 = library:(Maybe ^Cell) = false
+          //
+          STDICT // store `body` as ref with an extra Maybe bit, since `body` might be null
+          ENDC   // finalize the message
+          // → Stack state
+          // s0: Cell
+          // s1: params.`mode`
+          // Group 5: Sending the message, with `mode` on top
+          SWAP
+          SENDRAWMSG
+      300000000 PUSHINT
+      TRUE
+      2SWAP
+      1 PUSHINT
+      s0 s1 s5 XCHG3
+      $DeployParameters$_constructor_value_bounce_mode_init INLINECALLDICT
+          4 1 BLKPUSH // pushes 2 copies of `init.code` and `init.data`
+          HASHCU // `init.data` hash
+          SWAP
+          HASHCU // `init.code` hash
+          SWAP2
+          CDEPTH // `init.data` depth
+          SWAP
+          CDEPTH // `init.code` depth
+          // Group 2: Calculating destination address
+          // For almost identical logic and instructions,
+          // see comments inside `contractHash()` function in contract.tact
+          131380 INT // (2 << 16) | (1 << 8) | 0x34
+          NEWC
+          24 STU
+          16 STU
+          16 STU
+          256 STU
+          256 STU
+          ONE HASHEXT_SHA256 // obtains hash part (account id) of the address
+          // → Stack state
+          // s0: destAddr(hash part)
+          // s1: `init.data`
+          // s2: `init.code`
+          // s3 and below: `bounce`, `value`, `body`, `mode`
+          // Group 3: Building a message (CommonMsgInfoRelaxed)
+          s3 XCHG0           // swaps `bounce` with destAddr(hash part)
+          NEWC
+          b{01} STSLICECONST // store tag = $0 and ihr_disabled = true
+          1 STI              // store `bounce`
+          s1 s2 XCHG         // swap `init.data` with `init.code`, placing code on s1
+          STREF              // store `init.code`
+          STREF              // store `init.data`
+          // Inline StateInit:
+          b{00010000000000} STSLICECONST
+          // 0 + 00 + 10 + 0 + 00000000
+          // 1) 0 - bounced = false
+          // 2) 00 - src = addr_none
+          // 3) 10 - tag of addr_std (part of dest)
+          // 4) 0 - Maybe Anycast = false
+          // 5) 00000000 - workchain_id (part of dest)
+          //
+          256 STU     // store destAddr(hash part)
+          SWAP        // Builder on top, `value` below
+          STGRAMS     // store `value`
+          105 PUSHINT // 1 + 4 + 4 + 64 + 32
+          STZEROES    // store currency_collection, ihr_fee, fwd_fee, created_lt and created_at
+          // Group 4: Continue building a message (CommonMsgInfoRelaxed into MessageRelaxed)
+          // Remaining bits of MessageRelaxed:
+          b{1000110} STSLICECONST
+          // 10 + 0 + 0 + 1 + 1 + 0
+          // 10 - Maybe (Either StateInit ^StateInit) = true false
+          // 0 - split_depth:(Maybe (## 5)) = false
+          // 0 = special:(Maybe TickTock) = false
+          // 1 = code:(Maybe ^Cell) = true
+          // 1 = data:(Maybe ^Cell) = true
+          // 0 = library:(Maybe ^Cell) = false
+          //
+          STDICT // store `body` as ref with an extra Maybe bit, since `body` might be null
+          ENDC   // finalize the message
+          // → Stack state
+          // s0: Cell
+          // s1: params.`mode`
+          // Group 5: Sending the message, with `mode` on top
+          SWAP
+          SENDRAWMSG
+      300000000 PUSHINT
+      FALSE
+      1 PUSHINT
+          NEWC
+      65248 PUSHINT
+      SWAP
+      32 STU
+      __tact_context_get_sender INLINECALLDICT
+          STSLICER
+          ENDC
+      s7 PUSH
+      4 -ROLL
+      $MessageParameters$_constructor_to_value_bounce_mode_body INLINECALLDICT
+          NEWC
+          b{01} STSLICECONST  // store tag = $0 and ihr_disabled = true
+          1 STI               // store `bounce`
+          b{000} STSLICECONST // store bounced = false and src = addr_none
+          STSLICE             // store `to`
+          SWAP
+          STGRAMS             // store `value`
+          106 PUSHINT         // 1 + 4 + 4 + 64 + 32 + 1
+          STZEROES
+          // → Stack state
+          // s0: Builder
+          // s1: `body`
+          // s2: `mode`
+          STDICT
+          ENDC
+          SWAP
+          SENDRAWMSG
+      __tact_context_get_sender INLINECALLDICT
+      0 PUSHINT
+      FALSE
+      64 PUSHINT
+      __tact_context_get_sender INLINECALLDICT
+      s5 s10 XCHG
+      s4 s10 XCHG
+      s3 s7 XCHG
+      s0 s11 s12 XCHG3
+      $TokenLaunched$_constructor_queryId_jettonMaster_bondingCurve_creator_name_symbol INLINECALLDICT
+      NEWC
+      $TokenLaunched$_store_cell INLINECALLDICT
+      s4 s5 XCHG
+      s2 s3 XCHG
+      s7 s6 s0 XCHG3
+      $MessageParameters$_constructor_to_value_bounce_mode_body INLINECALLDICT
+          NEWC
+          b{01} STSLICECONST  // store tag = $0 and ihr_disabled = true
+          1 STI               // store `bounce`
+          b{000} STSLICECONST // store bounced = false and src = addr_none
+          STSLICE             // store `to`
+          SWAP
+          STGRAMS             // store `value`
+          106 PUSHINT         // 1 + 4 + 4 + 64 + 32 + 1
+          STZEROES
+          // → Stack state
+          // s0: Builder
+          // s1: `body`
+          // s2: `mode`
+          STDICT
+          ENDC
+          SWAP
+          SENDRAWMSG
+      -ROT
+      $Factory$_contract_store INLINECALLDICT
+    }>
+    s2 POP
+    s4 POP
+    s3 PUSH
+    2700491507 PUSHINT
+    EQUAL
+    IFJMP:<{
+      DROP
+      s2 POP
+      64 LDU
+      LDVARUINT16
+      DROP
+      2981 PUSHINT
+      __tact_context_get_sender INLINECALLDICT
+      s4 PUSH
+      SDEQ
+      THROWANYIFNOT
+      15925 PUSHINT
+          BALANCE FIRST
+      100000000 PUSHINT
+      SUB
+      s2 s(-1) PUXC
+      LEQ
+      THROWANYIFNOT
+      FALSE
+      1 PUSHINT
+          NEWC
+      s1 s4 XCHG
+      64 STU
+          ENDC
+      s1 s3 s0 XCHG3
+      $MessageParameters$_constructor_to_value_bounce_mode_body INLINECALLDICT
+          NEWC
+          b{01} STSLICECONST  // store tag = $0 and ihr_disabled = true
+          1 STI               // store `bounce`
+          b{000} STSLICECONST // store bounced = false and src = addr_none
+          STSLICE             // store `to`
+          SWAP
+          STGRAMS             // store `value`
+          106 PUSHINT         // 1 + 4 + 4 + 64 + 32 + 1
+          STZEROES
+          // → Stack state
+          // s0: Builder
+          // s1: `body`
+          // s2: `mode`
+          STDICT
+          ENDC
+          SWAP
+          SENDRAWMSG
+    }>
+    2 1 BLKDROP2
+    SWAP
+    0 EQINT
+    SWAP
+    33 LESSINT
+    AND
+    IFJMP:<{
+      __tact_context_get_sender INLINECALLDICT
+          NEWC
+          x{42_} STSLICECONST // .storeUint(0x10, 6)
+          STSLICE          // .storeAddress(to)
+          0 PUSHINT        // 0
+          111 STUR         // .storeUint(0, 111)
+                           // 4 zeros for coins and 107 zeros for lt, fees, etc.
+          ENDC
+          66 PUSHINT       // SendRemainingValue | SendIgnoreErrors
+          SENDRAWMSG
+    }>
+    130 THROW
+  }>
+  __tact_selector_hack PROC:<{
+    @atend @ 1 {
+            execute current@ context@ current!
+            {
+                // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+                // We want to extract recv_internal/recv_external from the dict and select needed function
+                // not by jumping to the needed function by it's index, but by using usual IF statements.
+                }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+                <{ // Start of the new code builder
+                    SETCP0
+                    // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                    swap
+                    // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                    <s ref@
+                    // Extract the recv_internal from the dict
+                    dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot
+                    swap
+                    // Delete the recv_internal from the dict
+                    0 swap @procdictkeylen idict- drop
+                    // Delete the recv_external from the dict (it's okay if it's not there)
+                    -1 swap @procdictkeylen idict- drop
+                    // Delete the __tact_selector_hack from the dict
+                    65535 swap @procdictkeylen idict- drop
+                    // Bring the code builder from the bottom of the stack
+                    // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                    depth 1- roll
+                    // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                    swap
+                    // Check if the dict is empty
+                    dup null?
+                    // Store a copy of this flag in the bottom of the stack
+                    dup depth 1- -roll
+                    {
+                        // If the dict is empty, just drop it (it will be null if it's empty)
+                        drop
+                    }
+                    {
+                        // If the dict is not empty, prepare continuation to be stored in c3
+                        <{
+                            // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                            swap @procdictkeylen DICTPUSHCONST
+                            // Jump to the needed function by it's index
+                            DICTIGETJMPZ
+                            // If such key is not found, throw 11 along with the key as an argument
+                            11 THROWARG
+                        }> PUSHCONT
+                        // Store the continuation in c3
+                        c3 POP
+                    } cond
+                    // Function id is on top of the (runtime) stack
+                    DUP IFNOTJMP:<{
+                        // place recv_internal here
+                        DROP swap @addop
+                    }>
+                    // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                    depth 1- roll
+                    {
+                        // If the dict is empty, throw 11
+                        11 THROWARG
+                    }
+                    {
+                        // If the dict is not empty, jump to continuation from c3
+                        c3 PUSH JMPX
+                    } cond
+                }> b>
+            } : }END>c
+            current@ context! current!
+        } does @atend !
+  }>
+}END>c

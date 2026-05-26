@@ -1,0 +1,771 @@
+#pragma version =0.4.6;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+;; tact_Factory.headers.fc
+;;
+;; Header files for Factory
+;; NOTE: declarations are sorted for optimal order
+;;
+
+;; __tact_context_get
+(int, slice, int, slice) __tact_context_get() inline;
+
+;; __tact_context_get_sender
+slice __tact_context_get_sender() inline;
+
+;; __tact_string_builder_start
+tuple __tact_string_builder_start(builder b) inline;
+
+;; __tact_string_builder_start_string
+tuple __tact_string_builder_start_string() inline;
+
+;; __tact_string_builder_end
+cell __tact_string_builder_end(tuple builders) inline;
+
+;; __tact_string_builder_append
+((tuple), ()) __tact_string_builder_append(tuple builders, slice sc) inline_ref;
+
+;; $TokenLaunched$_store
+builder $TokenLaunched$_store(builder build_0, (int, slice, slice, slice, slice, slice) v) inline;
+
+;; $TokenLaunched$_store_cell
+cell $TokenLaunched$_store_cell((int, slice, slice, slice, slice, slice) v, builder b) inline;
+
+;; $Factory$_store
+builder $Factory$_store(builder build_0, (slice, slice, int) v) inline;
+
+;; $Factory$_load
+(slice, ((slice, slice, int))) $Factory$_load(slice sc_0) inline;
+
+;; $DeployedAddresses$_to_external
+(slice, slice) $DeployedAddresses$_to_external(((slice, slice)) v) inline;
+
+;; $JettonMaster$init$_store
+builder $JettonMaster$init$_store(builder build_0, (int, slice, slice, cell, int) v) inline;
+
+;; $BondingCurve$init$_store
+builder $BondingCurve$init$_store(builder build_0, (slice, slice, slice, int, int, int) v) inline;
+
+;; $Factory$_contract_load
+(slice, slice, int) $Factory$_contract_load() impure inline;
+
+;; $Factory$_contract_store
+() $Factory$_contract_store((slice, slice, int) v) impure inline;
+
+;; $Cell$_fun_asSlice
+slice $Cell$_fun_asSlice(cell $self) impure inline;
+
+;; $global_newAddress
+slice $global_newAddress(int $chain, int $hash) impure inline;
+
+;; $global_contractAddressExt
+slice $global_contractAddressExt(int $chain, cell $code, cell $data) impure inline;
+
+;; $global_contractAddress
+slice $global_contractAddress((cell, cell) $s) impure inline;
+
+;; $JettonMaster$_init_child
+(cell, cell) $JettonMaster$_init_child(int $totalSupply, slice $admin, slice $minter, cell $jettonContent, int $mintable) inline_ref;
+
+;; $BondingCurve$_init_child
+(cell, cell) $BondingCurve$_init_child(slice $jettonMaster, slice $treasury, slice $tokenName, int $realTonReserve, int $realTokenReserve, int $graduated) inline_ref;
+
+;; $MessageParameters$_constructor_to_value_bounce_mode_body
+((int, cell, int, slice, int)) $MessageParameters$_constructor_to_value_bounce_mode_body(slice $to, int $value, int $bounce, int $mode, cell $body) inline;
+
+;; $Factory$_fun_buildContent
+((slice, slice, int), cell) $Factory$_fun_buildContent((slice, slice, int) $self, slice $name, slice $symbol, slice $description, slice $imageUrl) impure inline_ref;
+
+;; $Factory$_fun_get_token_count
+((slice, slice, int), int) $Factory$_fun_get_token_count((slice, slice, int) $self) impure inline_ref;
+
+;; $Factory$_fun_get_owner
+((slice, slice, int), slice) $Factory$_fun_get_owner((slice, slice, int) $self) impure inline_ref;
+
+;; $Factory$_fun_get_treasury
+((slice, slice, int), slice) $Factory$_fun_get_treasury((slice, slice, int) $self) impure inline_ref;
+
+;; $Factory$_fun_get_launch_fee
+((slice, slice, int), int) $Factory$_fun_get_launch_fee((slice, slice, int) $self) impure inline_ref;
+
+;; $DeployedAddresses$_constructor_jettonMaster_bondingCurve
+((slice, slice)) $DeployedAddresses$_constructor_jettonMaster_bondingCurve(slice $jettonMaster, slice $bondingCurve) inline;
+
+;; $Factory$_fun_compute_addresses
+((slice, slice, int), (slice, slice)) $Factory$_fun_compute_addresses((slice, slice, int) $self, slice $name, slice $symbol, slice $description, slice $imageUrl) impure inline_ref;
+
+;; $DeployParameters$_constructor_value_bounce_mode_init
+((int, cell, int, int, (cell, cell))) $DeployParameters$_constructor_value_bounce_mode_init(int $value, int $bounce, int $mode, (cell, cell) $init) inline;
+
+;; $TokenLaunched$_constructor_queryId_jettonMaster_bondingCurve_creator_name_symbol
+((int, slice, slice, slice, slice, slice)) $TokenLaunched$_constructor_queryId_jettonMaster_bondingCurve_creator_name_symbol(int $queryId, slice $jettonMaster, slice $bondingCurve, slice $creator, slice $name, slice $symbol) inline;
+
+
+;; tact_Factory.stdlib.fc
+global (int, slice, int, slice) __tact_context;
+global slice __tact_context_sender;
+global cell __tact_child_contract_codes;
+global int __tact_randomized;
+
+(int, slice, int, slice) __tact_context_get() inline {
+    return __tact_context;
+}
+
+slice __tact_context_get_sender() inline {
+    return __tact_context_sender;
+}
+
+tuple __tact_string_builder_start(builder b) inline {
+    return tpush(tpush(empty_tuple(), b), null());
+}
+
+tuple __tact_string_builder_start_string() inline {
+    return __tact_string_builder_start(begin_cell());
+}
+
+cell __tact_string_builder_end(tuple builders) inline {
+    (builder b, tuple tail) = uncons(builders);
+    cell c = b.end_cell();
+    while(~ null?(tail)) {
+        (b, tail) = uncons(tail);
+        c = b.store_ref(c).end_cell();
+    }
+    return c;
+}
+
+((tuple), ()) __tact_string_builder_append(tuple builders, slice sc) inline_ref {
+    int sliceRefs = slice_refs(sc);
+    int sliceBits = slice_bits(sc);
+
+    while((sliceBits > 0) | (sliceRefs > 0)) {
+
+        ;; Load the current builder
+        (builder b, tuple tail) = uncons(builders);
+        int remBytes = 127 - (builder_bits(b) / 8);
+        int exBytes = sliceBits / 8;
+
+        ;; Append bits
+        int amount = min(remBytes, exBytes);
+        if (amount > 0) {
+            slice read = sc~load_bits(amount * 8);
+            b = b.store_slice(read);
+        }
+
+        ;; Update builders
+        builders = cons(b, tail);
+
+        ;; Check if we need to add a new cell and continue
+        if (exBytes - amount > 0) {
+            var bb = begin_cell();
+            builders = cons(bb, builders);
+            sliceBits = (exBytes - amount) * 8;
+        } elseif (sliceRefs > 0) {
+            sc = sc~load_ref().begin_parse();
+            sliceRefs = slice_refs(sc);
+            sliceBits = slice_bits(sc);
+        } else {
+            sliceBits = 0;
+            sliceRefs = 0;
+        }
+    }
+
+    return ((builders), ());
+}
+
+builder $global_beginCell() impure asm """
+    NEWC
+""";
+
+int $global_contractHash(cell $code, cell $data) impure asm """
+    s0 PUSH HASHCU // `data` hash
+    s2 PUSH HASHCU // `code` hash
+    SWAP2
+    CDEPTH         // `data` depth
+    SWAP
+    CDEPTH         // `code` depth
+    131380 INT     // (2 << 16) | (1 << 8) | 0x34
+
+    // Group 2: Composition of the Builder
+    NEWC
+    24 STU  // store refs_descriptor | bits_descriptor | data
+    16 STU  // store depth_descriptor for `code`
+    16 STU  // store depth_descriptor for `data`
+    256 STU // store `code` hash
+    256 STU // store `data` hash
+
+    // Group 3: SHA256 hash of the resulting Builder
+    ONE HASHEXT_SHA256
+""";
+
+slice $Slice$_fun_asAddressUnsafe(slice $self) impure asm "NOP";
+
+slice $Cell$_fun_beginParse(cell $self) impure asm """
+    CTOS
+""";
+
+slice $Cell$_fun_asSlice(cell $self) impure inline {
+    var ($self) = $self;
+    return $Cell$_fun_beginParse($self);
+}
+
+cell $Builder$_fun_endCell(builder $self) impure asm """
+    ENDC
+""";
+
+slice $global_newAddress(int $chain, int $hash) impure inline {
+    return $Slice$_fun_asAddressUnsafe($Cell$_fun_asSlice($Builder$_fun_endCell(store_uint(store_int(store_uint($global_beginCell(), 4, 3), $chain, 8), $hash, 256))));
+}
+
+slice $global_contractAddressExt(int $chain, cell $code, cell $data) impure inline {
+    int $hash = $global_contractHash($code, $data);
+    return $global_newAddress($chain, $hash);
+}
+
+slice $global_contractAddress((cell, cell) $s) impure inline {
+    var (($s'code, $s'data)) = $s;
+    return $global_contractAddressExt(0, $s'code, $s'data);
+}
+
+slice $global_myAddress() impure asm """
+    MYADDR
+""";
+
+int $global_myBalance() impure asm """
+    BALANCE FIRST
+""";
+
+() $global_message((int, cell, int, slice, int) $params) impure asm """
+    NEWC
+    b{01} STSLICECONST  // store tag = $0 and ihr_disabled = true
+    1 STI               // store `bounce`
+    b{000} STSLICECONST // store bounced = false and src = addr_none
+    STSLICE             // store `to`
+    SWAP
+    STGRAMS             // store `value`
+    106 PUSHINT         // 1 + 4 + 4 + 64 + 32 + 1
+    STZEROES
+    // → Stack state
+    // s0: Builder
+    // s1: `body`
+    // s2: `mode`
+    STDICT
+    ENDC
+    SWAP
+    SENDRAWMSG
+""";
+
+() $global_deploy((int, cell, int, int, (cell, cell)) $params) impure asm """
+    4 1 BLKPUSH // pushes 2 copies of `init.code` and `init.data`
+    HASHCU // `init.data` hash
+    SWAP
+    HASHCU // `init.code` hash
+    SWAP2
+    CDEPTH // `init.data` depth
+    SWAP
+    CDEPTH // `init.code` depth
+
+    // Group 2: Calculating destination address
+    // For almost identical logic and instructions,
+    // see comments inside `contractHash()` function in contract.tact
+    131380 INT // (2 << 16) | (1 << 8) | 0x34
+    NEWC
+    24 STU
+    16 STU
+    16 STU
+    256 STU
+    256 STU
+    ONE HASHEXT_SHA256 // obtains hash part (account id) of the address
+    // → Stack state
+    // s0: destAddr(hash part)
+    // s1: `init.data`
+    // s2: `init.code`
+    // s3 and below: `bounce`, `value`, `body`, `mode`
+
+    // Group 3: Building a message (CommonMsgInfoRelaxed)
+    s3 XCHG0           // swaps `bounce` with destAddr(hash part)
+    NEWC
+    b{01} STSLICECONST // store tag = $0 and ihr_disabled = true
+    1 STI              // store `bounce`
+    s1 s2 XCHG         // swap `init.data` with `init.code`, placing code on s1
+    STREF              // store `init.code`
+    STREF              // store `init.data`
+    // Inline StateInit:
+    b{00010000000000} STSLICECONST
+    // 0 + 00 + 10 + 0 + 00000000
+    // 1) 0 - bounced = false
+    // 2) 00 - src = addr_none
+    // 3) 10 - tag of addr_std (part of dest)
+    // 4) 0 - Maybe Anycast = false
+    // 5) 00000000 - workchain_id (part of dest)
+    //
+    256 STU     // store destAddr(hash part)
+    SWAP        // Builder on top, `value` below
+    STGRAMS     // store `value`
+    105 PUSHINT // 1 + 4 + 4 + 64 + 32
+    STZEROES    // store currency_collection, ihr_fee, fwd_fee, created_lt and created_at
+
+    // Group 4: Continue building a message (CommonMsgInfoRelaxed into MessageRelaxed)
+    // Remaining bits of MessageRelaxed:
+    b{1000110} STSLICECONST
+    // 10 + 0 + 0 + 1 + 1 + 0
+    // 10 - Maybe (Either StateInit ^StateInit) = true false
+    // 0 - split_depth:(Maybe (## 5)) = false
+    // 0 = special:(Maybe TickTock) = false
+    // 1 = code:(Maybe ^Cell) = true
+    // 1 = data:(Maybe ^Cell) = true
+    // 0 = library:(Maybe ^Cell) = false
+    //
+    STDICT // store `body` as ref with an extra Maybe bit, since `body` might be null
+    ENDC   // finalize the message
+    // → Stack state
+    // s0: Cell
+    // s1: params.`mode`
+
+    // Group 5: Sending the message, with `mode` on top
+    SWAP
+    SENDRAWMSG
+""";
+
+() $global_cashback(slice $to) impure asm """
+    NEWC
+    x{42_} STSLICECONST // .storeUint(0x10, 6)
+    STSLICE          // .storeAddress(to)
+    0 PUSHINT        // 0
+    111 STUR         // .storeUint(0, 111)
+                     // 4 zeros for coins and 107 zeros for lt, fees, etc.
+    ENDC
+    66 PUSHINT       // SendRemainingValue | SendIgnoreErrors
+    SENDRAWMSG
+""";
+
+builder $Builder$_fun_storeRef(cell $cell, builder $self) impure asm """
+    STREF
+""";
+
+builder $Builder$_fun_storeAddress(builder $self, slice $address) impure asm """
+    STSLICER
+""";
+
+int $Slice$_fun_empty(slice $self) impure asm """
+    SEMPTY
+""";
+
+slice $String$_fun_asSlice(slice $self) impure asm "NOP";
+
+;; tact_Factory.storage.fc
+;;
+;; Type: MessageParameters
+;; TLB: _ mode:int257 body:Maybe ^cell value:int257 to:address bounce:bool = MessageParameters
+;;
+
+((int, cell, int, slice, int)) $MessageParameters$_constructor_to_value_bounce_mode_body(slice $to, int $value, int $bounce, int $mode, cell $body) inline {
+    return ($mode, $body, $value, $to, $bounce);
+}
+
+;;
+;; Type: DeployParameters
+;; TLB: _ mode:int257 body:Maybe ^cell value:int257 bounce:bool init:StateInit{code:^cell,data:^cell} = DeployParameters
+;;
+
+((int, cell, int, int, (cell, cell))) $DeployParameters$_constructor_value_bounce_mode_init(int $value, int $bounce, int $mode, (cell, cell) $init) inline {
+    return ($mode, null(), $value, $bounce, $init);
+}
+
+;;
+;; Type: TokenLaunched
+;; Header: 0x6daa8122
+;; TLB: token_launched#6daa8122 queryId:uint64 jettonMaster:address bondingCurve:address creator:address name:^string symbol:^string = TokenLaunched
+;;
+
+builder $TokenLaunched$_store(builder build_0, (int, slice, slice, slice, slice, slice) v) inline {
+    var (v'queryId, v'jettonMaster, v'bondingCurve, v'creator, v'name, v'symbol) = v;
+    build_0 = store_uint(build_0, 1839890722, 32);
+    build_0 = build_0.store_uint(v'queryId, 64);
+    build_0 = build_0.store_slice(v'jettonMaster);
+    build_0 = build_0.store_slice(v'bondingCurve);
+    build_0 = build_0.store_slice(v'creator);
+    build_0 = build_0.store_builder_ref(begin_cell().store_slice(v'name));
+    build_0 = build_0.store_builder_ref(begin_cell().store_slice(v'symbol));
+    return build_0;
+}
+
+cell $TokenLaunched$_store_cell((int, slice, slice, slice, slice, slice) v, builder b) inline {
+    return $TokenLaunched$_store(b, v).end_cell();
+}
+
+((int, slice, slice, slice, slice, slice)) $TokenLaunched$_constructor_queryId_jettonMaster_bondingCurve_creator_name_symbol(int $queryId, slice $jettonMaster, slice $bondingCurve, slice $creator, slice $name, slice $symbol) inline {
+    return ($queryId, $jettonMaster, $bondingCurve, $creator, $name, $symbol);
+}
+
+;;
+;; Type: DeployedAddresses
+;; TLB: _ jettonMaster:address bondingCurve:address = DeployedAddresses
+;;
+
+(slice, slice) $DeployedAddresses$_to_external(((slice, slice)) v) inline {
+    var (v'jettonMaster, v'bondingCurve) = v; 
+    return (v'jettonMaster, v'bondingCurve);
+}
+
+((slice, slice)) $DeployedAddresses$_constructor_jettonMaster_bondingCurve(slice $jettonMaster, slice $bondingCurve) inline {
+    return ($jettonMaster, $bondingCurve);
+}
+
+;;
+;; Type: JettonMaster
+;; TLB: _ totalSupply:coins admin:address minter:address jettonContent:^cell mintable:bool = JettonMaster
+;;
+
+builder $JettonMaster$init$_store(builder build_0, (int, slice, slice, cell, int) v) inline {
+    var (v'totalSupply, v'admin, v'minter, v'jettonContent, v'mintable) = v;
+    build_0 = build_0.store_varuint16(v'totalSupply);
+    build_0 = build_0.store_slice(v'admin);
+    build_0 = build_0.store_slice(v'minter);
+    build_0 = build_0.store_ref(v'jettonContent);
+    build_0 = build_0.store_int(v'mintable, 1);
+    return build_0;
+}
+
+cell $JettonMaster$_child_get_code() impure asm """
+    B{b5ee9c7201022b01000946000228ff008e88f4a413f4bcf2c80bed5320e303ed43d90102020378e0070802f23001d072d721d200d200fa4021103450666f04f86102f862ed44d0fa00fa40fa40d4d20055406c15068e39048020d7217021d749c21f9430d31f01de8210178d4519ba8e1cd33ffa00596c2113a15034c855405054fa0212cece12ccca00c9ed54e05f06e07025d74920c21f953105d31f06de21c015e30221030401fc5b04d33f31fa40fa0031d430d0d31f018210178d4519baf2e081d33ffa00fa40d72c01916d93fa4001e201fa005155151443303682009327f84229c705f2f48200b1782cf2f4f8416f248117b6820898968026a045405236fa40fa0071d721fa00fa00306c6170f83a13a081290470f836aa00a012bcf2f45193a04430700503fa82107bdd97deba8f725b04d33ffa00fa40d72c01916d93fa4001e231f842fa440370f82812db3c20f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400820098f602c00097206ef2d08013ba93303270e212f2f45055a1246eb3923430e30d4034c855405054fa0212cece12ccca00c9ed54e02119131402fc50547f805050c8c855508210178d45195007cb1f15cb3f5003fa02ce01206e9430cf84809201cee201fa02cec90470f82812db3c102510481038103510245f41f90001f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f9040003c8cf8580ca0012cccccf884008cbff01fa028069cf40cf8634f400c901fb00190600264034c855405054fa0212cece12ccca00c9ed54020120090a0201200f100201580b0c0095b77a304e0b9d87aba595cf63d09d873ac950a36cd04e13bac6a5a56c8f96645a75e5bfbe2c47304e040ab803700cec7299cb0755c8e4b658704e037a93bdf2a8b2de38ea7a7bc0ab3864d00131adbcf6a2687d007d207d206a69002aa0360aaa826d9e3628c00d012daf16f6a2687d007d207d206a69002aa0360aed9e362ac00e016670f82812db3c705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d019010e885465205466501b012db7fedda89a1f401f481f481a9a400aa80d82bb678d8a3011012db6555da89a1f401f481f481a9a400aa80d82bb678d8a3012000224000222006404206ef2d08001c8018210d53276db58cb1fcb3fc9707080425044c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0004f482102c76b973bae30221c0048e275f0303d33f31d4308200c4fbf84223c705f2f4440302c855405054fa0212cece12ccca00c9ed54e021c0178e2910235f0303d33f31fa40308200c4fbf84223c705f2f44034c855405054fa0212cece12ccca00c9ed54e021c003e302363625c016e3025f0401c00001c121b01516171802f410675f07d33ffa40d2003021fa4430c0008ea670f8285230db3c20f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400916de2552095c801cf16c992306de2c88210d173540001cb1f12cb3f58db3cf400c9f84270804043137fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb00191a00505b04d33f31fa40308200c4fbf8425004c70513f2f44034c855405054fa0212cece12ccca00c9ed5400723434812423f84222c705917f95f84225c705e2f2f470f842c8cf8508ce70cf0b6ec98042fb004430c855405054fa0212cece12ccca00c9ed54002c8e10f842c8cf8508ce70cf0b6ec98042fb00e0f2c082011688c855215afa0212cecec91b002e206e95307001cb01e0830958cb0a01206ef2d08001cbff0228ff008e88f4a413f4bcf2c80bed5320e303ed43d91c1d0202711e1f01f83001d072d721d200d200fa4021103450666f04f86102f862ed44d0fa00fa40fa4055206c13048e53028020d7217021d749c21f9430d31f01de208210178d4519ba8e1630d33ffa00596c21a002c855205afa0212cecec9ed54e082107bdd97deba8e15d33ffa00596c21a002c855205afa0212cecec9ed54e05f04e0210127bfd8176a2687d007d207d202a903609ed9e361a4200095bdde8c1382e761eae96573d8f42761ceb25428db341384eeb1a9695b23e599169d796fef8b11cc138102ae00dc033b1ca672c1d572392d961c1380dea4ef7caa2cb78e3a9e9ef02ace1934000ef82a5463305230035402d70d1ff2e0822182100f8a7ea5bae302218210178d4519bae302018210595f07bcbae3025f04f2c08222232401fe31d33ffa00fa40d72c01916d93fa4001e201f40431fa0023fa4430f2d08a8200f1aaf84229c705f2f45164a18200edb021c2fff2f48200db6c27d749c200f2f4f8416f2425b8a4541432811ba806fa40fa0071d721fa00fa00306c6170f83a12a85240a081290470f836aa008208989680a0a0bcf2f450547080407f2a46132503f631d33ffa00fa40d72c01916d93fa4001e201fa005164a0705349db3cf842fa44315920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400206ef2d08001ba9c8200ce00f84252a0c705f2f4dff8416f2421f8276f1021a127c200963c1059385f06e30d048208989680b60972fb02236eb327282901fed33ffa00d72c01916d93fa4001e2318200bba1f84226c705f2f45131a1816b6621c2fff2f4f8416f2443305230fa40fa0071d721fa00fa00306c6170f83a820098f4811a2c70f836aa0012a012bcf2f47080405414367f07c8553082107bdd97de5005cb1f13cb3f01fa02ce01206e9430cf84809201cee2c92604431350552a02f8509ac855508210178d45195007cb1f15cb3f5003fa02ce01206e9430cf84809201cee201fa02cec9525328db3c10561024103610261045102410235f41f90001f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f9040003c8cf8580ca0012cccccf884008cbff01fa028069cf40cf8634f400c901fb000227260018c855205afa0212cecec9ed540018f82ac855215afa0212cecec900ae5531fa40fa0071d721fa00fa00306c6170f83a5240a012a17170294913508bc8553082107362d09c5005cb1f13cb3f01fa02cecec9290447135066441359c8cf8580ca00cf8440ce01fa02806acf40f400c901fb00414000a69320c2009170e28e3803206ef2d0808100827004c8018210d53276db58cb1fcb3fc91024103512441359c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0093135f03e202c855205afa0212cecec9ed54004e441359c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0002c855205afa0212cecec9ed54} B>boc PUSHREF
+""";
+
+(cell, cell) $JettonMaster$_init_child(int $totalSupply, slice $admin, slice $minter, cell $jettonContent, int $mintable) inline_ref {
+    ;; Build init code cell
+
+    ;; Contract Code: JettonMaster
+    cell init_code = $JettonMaster$_child_get_code();
+
+
+    builder b = begin_cell();
+    b = $JettonMaster$init$_store(b, ($totalSupply, $admin, $minter, $jettonContent, $mintable));
+    return (init_code, b.end_cell());
+}
+
+;;
+;; Type: BondingCurve
+;; TLB: _ jettonMaster:address treasury:address tokenName:^string realTonReserve:coins realTokenReserve:coins graduated:bool = BondingCurve
+;;
+
+builder $BondingCurve$init$_store(builder build_0, (slice, slice, slice, int, int, int) v) inline {
+    var (v'jettonMaster, v'treasury, v'tokenName, v'realTonReserve, v'realTokenReserve, v'graduated) = v;
+    build_0 = build_0.store_slice(v'jettonMaster);
+    build_0 = build_0.store_slice(v'treasury);
+    build_0 = build_0.store_builder_ref(begin_cell().store_slice(v'tokenName));
+    build_0 = build_0.store_varuint16(v'realTonReserve);
+    build_0 = build_0.store_varuint16(v'realTokenReserve);
+    build_0 = build_0.store_int(v'graduated, 1);
+    return build_0;
+}
+
+cell $BondingCurve$_child_get_code() impure asm """
+    B{b5ee9c7201022b010009d8000228ff008e88f4a413f4bcf2c80bed5320e303ed43d90102020271030402e83001d072d721d200d200fa4021103450666f04f86102f862ed44d0fa40fa40d401d001fa00fa00d20055506c1607925f07e07026d74920c21f953106d31f07de21821054c2c2ccbae3022182107362d09cbae30250785f07c00001c121b08e10f842c8cf8508ce70cf0b6ec98042fb00e0f2c082121302012005060201660c0d0202760708013bb9b83ed44d0fa40fa40d401d001fa00fa00d20055506c165505db3c6c6180b0136a90ced44d0fa40fa40d401d001fa00fa00d20055506c16db3c6c61090136a92eed44d0fa40fa40d401d001fa00fa00d20055506c16db3c6c670a000220002e82103b9aca008218e8d4a5100027544730265446302659004482103b9aca0024a08218e8d4a5100024a15ca803a012a904a18126aca8812710a9040137b268fb51343e903e90350074007e803e80348015541b05b6cf1b18600e0201200f10003882103b9aca0023a08218e8d4a5100023a10182103b9aca00a801a904013bae61f6a2687d207d206a00e800fd007d0069002aa8360b2a82ed9e3630c0110095ade8c1382e761eae96573d8f42761ceb25428db341384eeb1a9695b23e599169d796fef8b11cc138102ae00dc033b1ca672c1d572392d961c1380dea4ef7caa2cb78e3a9e9ef02ace1934000468126aca8812710a90482103b9aca0024a08218e8d4a5100024a15ca85023a012a904a101fe5b05d33ffa00308200d85828b3f2f4f8416f24135f038200d0af21821007270e00bcf2f4820afaf080a18209312d00a1820afaf080a120a764812710a90466a182103b9aca0025a08218e8d4a510002aa15ca85123a012a904a181409121c200f2f4208200be3e05be14f2f414a05171a0820afaf0807f71f84223f84270c81402fc5b05d33ffa00fa408200d8582ab3f2f481356df84210591048103746ab70f82827db3c705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d01cc7051af2f481128127c200f2f482103b9aca0021a08218e8d4a510002aa15ca85119a0a904a18200987021c200181701ee5210cb00c9d02a514f104b4b330b2c50c8506c15144330c855808015500acb1f18cb3f16ce5004fa02c8061035102443078210178d45195007cb1f15cb3f5003fa02ce01206e9430cf84809201cee201fa02cecdc9290450554343c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0070715335c81501d85982102723fcb45003cb1fcb3f01c8cecdc927040655204343c8cf8580ca00cf8440ce01fa02806acf40f400c901fb002582181010b87200be9226b39170e28e8d36103544037f01db3c441550339130e210354403c855505056ce13ce01c8cecd01fa0201fa02ca00c9ed541600ba820afaf08070716f00c80130801601cb1fc92a55304343c8cf8580ca00cf8440ce01fa02806acf40f400c901fb008209312d007071c88200dead01cb1f14cb3fc92850444343c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0002f8f2f4811d865312bbf2f47026d749c23f963005fa0030059136e220a764812710a9045ca1208200be3e09be18f2f459a15197a1104510341023490a70f82827db3c705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d08209c9c3807f716d544dd052cec81819011688c855215afa0212cecec91a01fc55308210595f07bc5005cb1f13cb3f01fa0201206e9430cf84809201cee2f400c9103441301b4343c8cf8580ca00cf8440ce01fa02806acf40f400c901fb007071c852a0cb3fc91048103b4343c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0070715172c85982102723fcb45003cb1fcb3f01c8cecdc923103a2a0228ff008e88f4a413f4bcf2c80bed5320e303ed43d91b1c0202711d1e01f83001d072d721d200d200fa4021103450666f04f86102f862ed44d0fa00fa40fa4055206c13048e53028020d7217021d749c21f9430d31f01de208210178d4519ba8e1630d33ffa00596c21a002c855205afa0212cecec9ed54e082107bdd97deba8e15d33ffa00596c21a002c855205afa0212cecec9ed54e05f04e0200127bfd8176a2687d007d207d202a903609ed9e361a41f0095bdde8c1382e761eae96573d8f42761ceb25428db341384eeb1a9695b23e599169d796fef8b11cc138102ae00dc033b1ca672c1d572392d961c1380dea4ef7caa2cb78e3a9e9ef02ace1934000ef82a5463305230035402d70d1ff2e0822182100f8a7ea5bae302218210178d4519bae302018210595f07bcbae3025f04f2c08221222301fe31d33ffa00fa40d72c01916d93fa4001e201f40431fa0023fa4430f2d08a8200f1aaf84229c705f2f45164a18200edb021c2fff2f48200db6c27d749c200f2f4f8416f2425b8a4541432811ba806fa40fa0071d721fa00fa00306c6170f83a12a85240a081290470f836aa008208989680a0a0bcf2f450547080407f2a46132403f631d33ffa00fa40d72c01916d93fa4001e201fa005164a0705349db3cf842fa44315920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400206ef2d08001ba9c8200ce00f84252a0c705f2f4dff8416f2421f8276f1021a127c200963c1059385f06e30d048208989680b60972fb02236eb326272801fed33ffa00d72c01916d93fa4001e2318200bba1f84226c705f2f45131a1816b6621c2fff2f4f8416f2443305230fa40fa0071d721fa00fa00306c6170f83a820098f4811a2c70f836aa0012a012bcf2f47080405414367f07c8553082107bdd97de5005cb1f13cb3f01fa02ce01206e9430cf84809201cee2c92604431350552902f8509ac855508210178d45195007cb1f15cb3f5003fa02ce01206e9430cf84809201cee201fa02cec9525328db3c10561024103610261045102410235f41f90001f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f9040003c8cf8580ca0012cccccf884008cbff01fa028069cf40cf8634f400c901fb000226250018c855205afa0212cecec9ed540018f82ac855215afa0212cecec900ae5531fa40fa0071d721fa00fa00306c6170f83a5240a012a17170294913508bc8553082107362d09c5005cb1f13cb3f01fa02cecec9290447135066441359c8cf8580ca00cf8440ce01fa02806acf40f400c901fb00414000a69320c2009170e28e3803206ef2d0808100827004c8018210d53276db58cb1fcb3fc91024103512441359c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0093135f03e202c855205afa0212cecec9ed54004e441359c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0002c855205afa0212cecec9ed54006c50884343c8cf8580ca00cf8440ce01fa02806acf40f400c901fb0005034144c855505056ce13ce01c8cecd01fa0201fa02ca00c9ed54} B>boc PUSHREF
+""";
+
+(cell, cell) $BondingCurve$_init_child(slice $jettonMaster, slice $treasury, slice $tokenName, int $realTonReserve, int $realTokenReserve, int $graduated) inline_ref {
+    ;; Build init code cell
+
+    ;; Contract Code: BondingCurve
+    cell init_code = $BondingCurve$_child_get_code();
+
+
+    builder b = begin_cell();
+    b = $BondingCurve$init$_store(b, ($jettonMaster, $treasury, $tokenName, $realTonReserve, $realTokenReserve, $graduated));
+    return (init_code, b.end_cell());
+}
+
+;;
+;; Type: Factory
+;; TLB: _ owner:address treasury:address tokenCount:uint32 = Factory
+;;
+
+builder $Factory$_store(builder build_0, (slice, slice, int) v) inline {
+    var (v'owner, v'treasury, v'tokenCount) = v;
+    build_0 = build_0.store_slice(v'owner);
+    build_0 = build_0.store_slice(v'treasury);
+    build_0 = build_0.store_uint(v'tokenCount, 32);
+    return build_0;
+}
+
+(slice, ((slice, slice, int))) $Factory$_load(slice sc_0) inline {
+    var v'owner = sc_0~load_msg_addr();
+    var v'treasury = sc_0~load_msg_addr();
+    var v'tokenCount = sc_0~load_uint(32);
+    return (sc_0, (v'owner, v'treasury, v'tokenCount));
+}
+
+(slice, slice, int) $Factory$_contract_load() impure inline {
+    slice $sc = get_data().begin_parse();
+    return $sc~$Factory$_load();
+}
+
+() $Factory$_contract_store((slice, slice, int) v) impure inline {
+    builder b = begin_cell();
+    b = $Factory$_store(b, v);
+    set_data(b.end_cell());
+}
+
+;;
+;; Contract Factory functions
+;;
+
+((slice, slice, int), cell) $Factory$_fun_buildContent((slice, slice, int) $self, slice $name, slice $symbol, slice $description, slice $imageUrl) impure inline_ref {
+    var (($self'owner, $self'treasury, $self'tokenCount)) = $self;
+    tuple $nameSB = __tact_string_builder_start_string();
+    $nameSB~__tact_string_builder_append($name);
+    tuple $symbolSB = __tact_string_builder_start_string();
+    $symbolSB~__tact_string_builder_append($symbol);
+    tuple $descSB = __tact_string_builder_start_string();
+    $descSB~__tact_string_builder_append($description);
+    tuple $imageSB = __tact_string_builder_start_string();
+    $imageSB~__tact_string_builder_append($imageUrl);
+    var $fresh$ret_76 = $Builder$_fun_endCell($Builder$_fun_storeRef($Builder$_fun_endCell($Builder$_fun_storeRef(__tact_string_builder_end($imageSB), $Builder$_fun_storeRef(__tact_string_builder_end($descSB), $Builder$_fun_storeRef(__tact_string_builder_end($symbolSB), $Builder$_fun_storeRef(__tact_string_builder_end($nameSB), store_uint($global_beginCell(), 11, 8)))))), store_uint($global_beginCell(), 0, 8)));
+    return (($self'owner, $self'treasury, $self'tokenCount), $fresh$ret_76);
+}
+
+((slice, slice, int), int) $Factory$_fun_get_token_count((slice, slice, int) $self) impure inline_ref {
+    var (($self'owner, $self'treasury, $self'tokenCount)) = $self;
+    var $fresh$ret_77 = $self'tokenCount;
+    return (($self'owner, $self'treasury, $self'tokenCount), $fresh$ret_77);
+}
+
+((slice, slice, int), slice) $Factory$_fun_get_owner((slice, slice, int) $self) impure inline_ref {
+    var (($self'owner, $self'treasury, $self'tokenCount)) = $self;
+    var $fresh$ret_78 = $self'owner;
+    return (($self'owner, $self'treasury, $self'tokenCount), $fresh$ret_78);
+}
+
+((slice, slice, int), slice) $Factory$_fun_get_treasury((slice, slice, int) $self) impure inline_ref {
+    var (($self'owner, $self'treasury, $self'tokenCount)) = $self;
+    var $fresh$ret_79 = $self'treasury;
+    return (($self'owner, $self'treasury, $self'tokenCount), $fresh$ret_79);
+}
+
+((slice, slice, int), int) $Factory$_fun_get_launch_fee((slice, slice, int) $self) impure inline_ref {
+    var (($self'owner, $self'treasury, $self'tokenCount)) = $self;
+    var $fresh$ret_80 = 1000000000;
+    return (($self'owner, $self'treasury, $self'tokenCount), $fresh$ret_80);
+}
+
+((slice, slice, int), (slice, slice)) $Factory$_fun_compute_addresses((slice, slice, int) $self, slice $name, slice $symbol, slice $description, slice $imageUrl) impure inline_ref {
+    var (($self'owner, $self'treasury, $self'tokenCount)) = $self;
+    cell $contentCell = ($self'owner, $self'treasury, $self'tokenCount)~$Factory$_fun_buildContent($name, $symbol, $description, $imageUrl);
+    var ($jmInitTmp'code, $jmInitTmp'data) = $JettonMaster$_init_child(0, $global_myAddress(), $global_myAddress(), $contentCell, true);
+    var ($bcInitTmp'code, $bcInitTmp'data) = $BondingCurve$_init_child($global_contractAddress(($jmInitTmp'code, $jmInitTmp'data)), $self'treasury, $name, 0, 0, false);
+    slice $bcAddr = $global_contractAddress(($bcInitTmp'code, $bcInitTmp'data));
+    var ($jmInit'code, $jmInit'data) = $JettonMaster$_init_child(0, $global_myAddress(), $bcAddr, $contentCell, true);
+    slice $jmAddr = $global_contractAddress(($jmInit'code, $jmInit'data));
+    var ($bcInitFinal'code, $bcInitFinal'data) = $BondingCurve$_init_child($jmAddr, $self'treasury, $name, 0, 0, false);
+    var $fresh$ret_81 = $DeployedAddresses$_constructor_jettonMaster_bondingCurve($jmAddr, $global_contractAddress(($bcInitFinal'code, $bcInitFinal'data)));
+    return (($self'owner, $self'treasury, $self'tokenCount), $fresh$ret_81);
+}
+
+;;
+;; Get methods of a Contract Factory
+;;
+
+_ %get_token_count() method_id(116606) {
+    var self = $Factory$_contract_load();
+    var res = self~$Factory$_fun_get_token_count();
+    return res;
+}
+
+_ %get_owner() method_id(80293) {
+    var self = $Factory$_contract_load();
+    var res = self~$Factory$_fun_get_owner();
+    return res;
+}
+
+_ %get_treasury() method_id(107886) {
+    var self = $Factory$_contract_load();
+    var res = self~$Factory$_fun_get_treasury();
+    return res;
+}
+
+_ %get_launch_fee() method_id(126523) {
+    var self = $Factory$_contract_load();
+    var res = self~$Factory$_fun_get_launch_fee();
+    return res;
+}
+
+_ %compute_addresses(slice $name, slice $symbol, slice $description, slice $imageUrl) method_id(104751) {
+    slice $name = $name;
+    slice $symbol = $symbol;
+    slice $description = $description;
+    slice $imageUrl = $imageUrl;
+    var self = $Factory$_contract_load();
+    var res = self~$Factory$_fun_compute_addresses($name, $symbol, $description, $imageUrl);
+    return $DeployedAddresses$_to_external(res);
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.debug.v0"H >> 128
+    );
+}
+
+;;
+;; Routing of a Contract Factory
+;;
+
+;; message opcode reader utility: only binary receivers
+;; Returns 32 bit message opcode, otherwise throws the "Invalid incoming message" exit code
+(slice, int) ~load_opcode_internal(slice s) asm( -> 1 0) "32 LDUQ 130 THROWIFNOT";
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    cs~skip_bits(2);
+    var msg_bounceable = cs~load_int(1);
+    var msg_bounced = cs~load_int(1);
+    slice msg_sender_addr = cs~load_msg_addr();
+    __tact_context = (msg_bounceable, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var ($self'owner, $self'treasury, $self'tokenCount) = $Factory$_contract_load();
+    
+    ;; Handle bounced messages
+    if (msg_bounced) { return (); }
+    int op = 0;
+    int in_msg_length = slice_bits(in_msg);
+    if (in_msg_length >= 32) {
+        op = in_msg~load_uint(32);
+    }
+    ;; Receive LaunchToken message
+    if (op == 3373264781) {
+        var $msg'queryId = in_msg~load_uint(64);
+        var $msg'name = in_msg~load_ref().begin_parse();
+        var $msg'symbol = in_msg~load_ref().begin_parse();
+        slice sc_1 = in_msg~load_ref().begin_parse();
+        var $msg'description = sc_1~load_ref().begin_parse();
+        var $msg'imageUrl = sc_1~load_ref().begin_parse();
+        var ($ctx'bounceable, $ctx'sender, $ctx'value, $ctx'raw) = __tact_context_get();
+        throw_unless(35920, ($ctx'value >= 1000000000));
+        throw_unless(51341, (~ $Slice$_fun_empty($String$_fun_asSlice($msg'name))));
+        throw_unless(32258, (~ $Slice$_fun_empty($String$_fun_asSlice($msg'symbol))));
+        cell $contentCell = ($self'owner, $self'treasury, $self'tokenCount)~$Factory$_fun_buildContent($msg'name, $msg'symbol, $msg'description, $msg'imageUrl);
+        var ($jmInitTmp'code, $jmInitTmp'data) = $JettonMaster$_init_child(0, $global_myAddress(), $global_myAddress(), $contentCell, true);
+        var ($bcInitTmp'code, $bcInitTmp'data) = $BondingCurve$_init_child($global_contractAddress(($jmInitTmp'code, $jmInitTmp'data)), $self'treasury, $msg'name, 0, 0, false);
+        slice $bcAddr = $global_contractAddress(($bcInitTmp'code, $bcInitTmp'data));
+        var ($jmInit'code, $jmInit'data) = $JettonMaster$_init_child(0, $global_myAddress(), $bcAddr, $contentCell, true);
+        slice $jmAddr = $global_contractAddress(($jmInit'code, $jmInit'data));
+        var ($bcInit'code, $bcInit'data) = $BondingCurve$_init_child($jmAddr, $self'treasury, $msg'name, 0, 0, false);
+        slice $bcAddrFinal = $global_contractAddress(($bcInit'code, $bcInit'data));
+        $self'tokenCount = $self'tokenCount + 1;
+        $global_deploy($DeployParameters$_constructor_value_bounce_mode_init(300000000, true, 1, ($jmInit'code, $jmInit'data)));
+        $global_deploy($DeployParameters$_constructor_value_bounce_mode_init(300000000, true, 1, ($bcInit'code, $bcInit'data)));
+        $global_message($MessageParameters$_constructor_to_value_bounce_mode_body($self'treasury, 300000000, false, 1, $Builder$_fun_endCell($Builder$_fun_storeAddress(store_uint($global_beginCell(), 65248, 32), __tact_context_get_sender()))));
+        $global_message($MessageParameters$_constructor_to_value_bounce_mode_body(__tact_context_get_sender(), 0, false, 64, $TokenLaunched$_store_cell($TokenLaunched$_constructor_queryId_jettonMaster_bondingCurve_creator_name_symbol($msg'queryId, $jmAddr, $bcAddrFinal, __tact_context_get_sender(), $msg'name, $msg'symbol), begin_cell())));
+        $Factory$_contract_store(($self'owner, $self'treasury, $self'tokenCount));
+        return ();
+    }
+    
+    ;; Receive FactoryWithdraw message
+    if (op == 2700491507) {
+        var $msg'queryId = in_msg~load_uint(64);
+        var $msg'amount = in_msg~load_varuint16();
+        throw_unless(2981, ( equal_slices_bits(__tact_context_get_sender(), $self'owner) ));
+        throw_unless(15925, ($msg'amount <= ($global_myBalance() - 100000000)));
+        $global_message($MessageParameters$_constructor_to_value_bounce_mode_body($self'owner, $msg'amount, false, 1, $Builder$_fun_endCell(store_uint($global_beginCell(), $msg'queryId, 64))));
+        
+        return ();
+    }
+    
+    ;; Receive empty message
+    if ((op == 0) & (in_msg_length <= 32)) {
+        $global_cashback(__tact_context_get_sender());
+        
+        return ();
+    }
+    ;; Throw if not handled
+    throw(130);
+}
+
+
+() __tact_selector_hack_asm() impure asm """
+@atend @ 1 {
+        execute current@ context@ current!
+        {
+            // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+            // We want to extract recv_internal/recv_external from the dict and select needed function
+            // not by jumping to the needed function by it's index, but by using usual IF statements.
+
+            }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+
+            <{ // Start of the new code builder
+                SETCP0
+                // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                swap
+                // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                <s ref@
+
+                // Extract the recv_internal from the dict
+                dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot
+                swap
+
+                // Delete the recv_internal from the dict
+                0 swap @procdictkeylen idict- drop
+                // Delete the recv_external from the dict (it's okay if it's not there)
+                -1 swap @procdictkeylen idict- drop
+                // Delete the __tact_selector_hack from the dict
+                65535 swap @procdictkeylen idict- drop
+
+                // Bring the code builder from the bottom of the stack
+                // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                depth 1- roll
+                // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                swap
+
+                // Check if the dict is empty
+                dup null?
+                // Store a copy of this flag in the bottom of the stack
+                dup depth 1- -roll
+                {
+                    // If the dict is empty, just drop it (it will be null if it's empty)
+                    drop
+                }
+                {
+                    // If the dict is not empty, prepare continuation to be stored in c3
+                    <{
+                        // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                        swap @procdictkeylen DICTPUSHCONST
+                        // Jump to the needed function by it's index
+                        DICTIGETJMPZ
+                        // If such key is not found, throw 11 along with the key as an argument
+                        11 THROWARG
+                    }> PUSHCONT
+                    // Store the continuation in c3
+                    c3 POP
+                } cond
+
+                // Function id is on top of the (runtime) stack
+                DUP IFNOTJMP:<{
+                    // place recv_internal here
+                    DROP swap @addop
+                }>
+
+                // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                depth 1- roll
+                {
+                    // If the dict is empty, throw 11
+                    11 THROWARG
+                }
+                {
+                    // If the dict is not empty, jump to continuation from c3
+                    c3 PUSH JMPX
+                } cond
+            }> b>
+        } : }END>c
+        current@ context! current!
+    } does @atend !
+""";
+
+() __tact_selector_hack() method_id(65535) {
+    return __tact_selector_hack_asm();
+}
