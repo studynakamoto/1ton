@@ -6,7 +6,7 @@ Pump.fun-style memecoin launcher on TON. Pay **1 TON** to deploy a TEP-74 jetton
 
 - **Contracts:** Tact → FunC via [Blueprint](https://github.com/ton-org/blueprint)
 - **Network:** TON testnet (see `blueprint.config.ts`)
-- **Frontend (planned):** React + Vite + Telegram Mini App + TON Connect 2
+- **Frontend:** React + Vite Telegram Mini App in `mini-app/`
 
 ## Contracts
 
@@ -22,7 +22,7 @@ Pump.fun-style memecoin launcher on TON. Pay **1 TON** to deploy a TEP-74 jetton
 
 ```bash
 npm install
-npm run build          # compile all Tact contracts
+npm run build          # compile all Tact contracts (required before tests)
 npm test               # sandbox tests
 npm run deploy         # blueprint run (interactive)
 ```
@@ -31,8 +31,7 @@ Deploy scripts: `scripts/deployTreasury.ts`, `scripts/deployFactory.ts`.
 
 ## Development order
 
-1. Jetton (TEP-74) — **current focus**
-2. Bonding curve tests
-3. Factory + integration
-4. Testnet deploy
-5. Telegram Mini App
+1. Jetton (TEP-74) ✓
+2. Bonding curve + factory integration tests
+3. Testnet deploy
+4. Mini App + TON Connect on 1ton.fun
