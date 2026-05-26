@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/tact-lang/tact/main/src/config/configSchema.json",
+  "projects": [
+    {
+      "name": "JettonMaster",
+      "path": "./contracts/JettonMaster.tact",
+      "output": "./build/JettonMaster"
+    },
+    {
+      "name": "JettonWallet",
+      "path": "./contracts/JettonWallet.tact",
+      "output": "./build/JettonWallet"
+    },
+    {
+      "name": "BondingCurve",
+      "path": "./contracts/BondingCurve.tact",
+      "output": "./build/BondingCurve"
+    },
+    {
+      "name": "Factory",
+      "path": "./contracts/Factory.tact",
+      "output": "./build/Factory"
+    },
+    {
+      "name": "Treasury",
+      "path": "./contracts/Treasury.tact",
+      "output": "./build/Treasury"
+    }
+  ]
+}
